@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Footer } from "@/layouts/footer";
 import { PencilLine, Plus, ShieldOff, SquareX, Trash } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
+import toast from "react-hot-toast";
 
 const Yojana = () => {
     const { theme } = useTheme();
@@ -314,7 +315,7 @@ const Yojana = () => {
                             </select>
                             {/* Dropdown for sub category */}
                             <select 
-                                value={formData?.subcategory_id || ""}
+                                defaultValue={formData?.subcategory_name || ""}
                                 ref={subCategoryIDRef} 
                                 required 
                                 className="w-full p-2 border rounded-md"
@@ -337,7 +338,7 @@ const Yojana = () => {
                             <input ref={amountRef} type="number" placeholder="Amount" required className="w-full p-2 border rounded-md" defaultValue={formData?.amount || ""} />
                                     
                             <select 
-                                value={String(formData?.year || "")}
+                                defaultValue={formData?.year || ""}
                                 ref={yojanaYearRef} 
                                 required 
                                 className="w-full p-2 border rounded-md"
