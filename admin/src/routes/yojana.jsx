@@ -299,11 +299,11 @@ const Yojana = () => {
 
                             {/* Dropdown for category selection */}
                             <select 
+                                value={String(formData?.category_id || "")}
                                 ref={categoryIDRef} 
                                 onChange={handleCategoryChange} 
                                 required 
                                 className="w-full p-2 border rounded-md"
-                                value={formData?.category_id || ""}
                             >
                                 <option value="">Select Category</option>
                                 {categoryData.map(category => (
