@@ -134,10 +134,10 @@ const Yojana = () => {
         setFormData(yojana);
         setShowForm(true);
 
-        const categoryId = yojana.category_id;
-        setSelectedCategory(categoryId);
-        const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
-        setFilteredSubcategories(filtered);
+        // const categoryId = yojana.category_id;
+        // setSelectedCategory(categoryId);
+        // const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
+        // setFilteredSubcategories(filtered);
     };
 
     // Handle Delete
