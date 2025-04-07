@@ -303,7 +303,7 @@ const Yojana = () => {
                                 onChange={handleCategoryChange} 
                                 required 
                                 className="w-full p-2 border rounded-md"
-                                defaultValue={formData?.category_name || ""}
+                                value={formData?.category_name || ""}
                             >
                                 <option value="">Select Category</option>
                                 {categoryData.map(category => (
