@@ -303,7 +303,7 @@ const Yojana = () => {
                                 onChange={handleCategoryChange} 
                                 required 
                                 className="w-full p-2 border rounded-md"
-                                selected={formData?.category_name || ""}
+                                defaultValue={formData?.category_name || ""}
                             >
                                 <option value="">Select Category</option>
                                 {categoryData.map(category => (
@@ -340,6 +340,7 @@ const Yojana = () => {
                                 ref={yojanaYearRef} 
                                 required 
                                 className="w-full p-2 border rounded-md"
+                                defaultValue={formData?.year || ""}
                             >
                                 <option value="">Select Year</option>
                                 {Array.from({ length: 10 }, (_, i) => {
