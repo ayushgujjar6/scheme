@@ -177,22 +177,13 @@ const Yojana = () => {
 
 
 
-   
-const handleCategoryChange = (event) => {
-    const categoryId = Number(event.target.value);
-    setSelectedCategory(categoryId); 
+    const handleCategoryChange = (event) => {
+        const categoryId = Number(event.target.value);
+        setSelectedCategory(categoryId); 
     
-const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
-    setFilteredSubcategories(filtered);
-
-    //  Optional: Clear subcategory on category change
-    setFormData(prev => ({
-        ...prev,
-        category_id: categoryId,
-        subcategory_id: ""  // Clear subcategory if category changes
-    }));
-};
-
+        const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
+        setFilteredSubcategories(filtered);
+    };
     
 
 
@@ -324,9 +315,8 @@ const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
                             </select>
                             {/* Dropdown for sub category */}
                             <select 
-                                defaultValue={String(formData?.subcategory_id || "")}
+                                value={String(formData?.subcategory_id || "")}
                                 ref={subCategoryIDRef} 
-                                onChange={handleSubCategoryChange}
                                 required 
                                 className="w-full p-2 border rounded-md"
                             >
