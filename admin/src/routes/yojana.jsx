@@ -184,6 +184,14 @@ const Yojana = () => {
         const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
         setFilteredSubcategories(filtered);
     };
+
+    const handleSubCategoryChange = (e) => {
+        setFormData(prev => ({
+            ...prev,
+            subcategory_id: e.target.value
+        }));
+    };
+    
     
 
 
@@ -317,6 +325,7 @@ const Yojana = () => {
                             <select 
                                 value={String(formData?.subcategory_id || "")}
                                 ref={subCategoryIDRef} 
+                                onChange={handleSubCategoryChange}
                                 required 
                                 className="w-full p-2 border rounded-md"
                             >
