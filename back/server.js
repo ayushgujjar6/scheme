@@ -5,6 +5,10 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const db = require('./DB/db');
 const cookieParser = require('cookie-parser')
+const multer = require("multer");
+const path = require("path");
+
+
 
 
 require('dotenv').config();
@@ -20,7 +24,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://yojana-front.vercel.app'],
+    origin: ['http://localhost:5173','http://localhost:5175','https://yojana-front.vercel.app'],
     credentials: true
   }));
 
@@ -850,126 +854,99 @@ app.put("/api/user/:id", (req, res) => {
 
 
 
-//-------------------------------Main website--------------------------------
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "uploads/");
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      cb(null, uniqueSuffix + path.extname(file.originalname));
+    },
+  });
+  
+  const upload = multer({ storage: storage });
 
-
-
-// app.get("/getCategory", (req, res) => {
-//     db.query("SELECT * FROM category_yojana", (err, results) => {
-//       if (err) return res.status(500).json({ error: err.message });
-//       res.json({ data: results });
-//     });
-//   });
-
-//   app.get("/getSubCategory", (req, res) => {
-//     db.query("SELECT * FROM sub_category", (err, results) => {
-//       if (err) return res.status(500).json({ error: err.message });
-//       res.json({ data: results });
-//     });
-//   });
-
-//   app.get("/getYojanaType", (req, res) => {
-//     db.query("SELECT * FROM tbl_yojana_type", (err, results) => {
-//       if (err) return res.status(500).json({ error: err.message });
-//       res.json({ data: results });
-//     });
-//   });
-
-//   // Submit Application Form
-//   app.post(
-//     "/user-apply",
-//     upload.fields([
-//       { name: "document1", maxCount: 1 },
-//       { name: "document2", maxCount: 1 },
-//       { name: "document3", maxCount: 1 },
-//     ]),
-//     (req, res) => {
-//       const {
-//         aadhar,
-//         surname,
-//         firstName,
-//         fatherName,
-//         beneficiaryType,
-//         category,
-//         subCategory,
-//         yojnaType,
-//         bankName,
-//         ifsc,
-//         accountNo,
-//         amountPaid,
-//       } = req.body;
-
-//       const document1 = req.files.document1 ? req.files.document1[0].filename : null;
-//       const document2 = req.files.document2 ? req.files.document2[0].filename : null;
-//       const document3 = req.files.document3 ? req.files.document3[0].filename : null;
-
-//       const sql =
-//         "INSERT INTO applications (aadhar, surname, firstName, fatherName, beneficiaryType, category, subCategory, yojnaType, bankName, ifsc, accountNo, amountPaid, document1, document2, document3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//       const values = [
-//         aadhar,
-//         surname,
-//         firstName,
-//         fatherName,
-//         beneficiaryType,
-//         category,
-//         subCategory,
-//         yojnaType,
-//         bankName,
-//         ifsc,
-//         accountNo,
-//         amountPaid,
-//         document1,
-//         document2,
-//         document3,
-//       ];
-
-//       db.query(sql, values, (err, result) => {
-//         if (err) return res.status(500).json({ error: err.message });
-//         res.json({ message: "Application submitted successfully" });
-//       });
-//     }
-//   );
-
-
-
-//
-// CREATE TABLE user_applied (
-//     id INT AUTO_INCREMENT PRIMARY KEY,
-//     aadhar VARCHAR(12) NOT NULL,
-//     surname VARCHAR(100),
-//     firstName VARCHAR(100),
-//     fatherName VARCHAR(100),
-//     beneficiaryType VARCHAR(100),
-//     category VARCHAR(100),
-//     subCategory VARCHAR(100),
-//     yojnaType VARCHAR(100),
-//     bankName VARCHAR(100),
-//     ifsc VARCHAR(20),
-//     accountNo VARCHAR(20),
-//     amountPaid DECIMAL(10,2),
-//     document1 VARCHAR(255),
-//     document2 VARCHAR(255),
-//     document3 VARCHAR(255),
-//     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );
-
-///---------------------------------------------------------------
-///---------------------------------------------------------------
-///---------------------------------------------------------------
-///---------------------------------------------------------------
-///---------------------------------------------------------------
-
-
-
-
-
-
-
-// app.listen(PORT, () => {
-//     console.log(`Server running on ${PORT}`);
-// });
-
+  
+app.post(
+    "/api/submitForm",
+    upload.fields([
+      { name: "document1", maxCount: 1 },
+      { name: "document2", maxCount: 1 },
+      { name: "document3", maxCount: 1 },
+    ]),
+    (req, res) => {
+      const {
+        aadhar,
+        firstName,
+        surname,
+        fatherName,
+        beneficiaryType,
+        category,
+        subCategory,
+        yojnaType,
+        bankName,
+        ifsc,
+        accountNo,
+        amountPaid,
+      } = req.body;
+  
+      if (
+        !aadhar ||
+        !firstName ||
+        !surname ||
+        !fatherName ||
+        !beneficiaryType ||
+        !category ||
+        !subCategory ||
+        !yojnaType ||
+        !bankName ||
+        !ifsc ||
+        !accountNo ||
+        !amountPaid
+      ) {
+        return res.status(400).json({ error: "All fields are required" });
+      }
+  
+      const document1 = req.files?.document1?.[0]?.filename || null;
+      const document2 = req.files?.document2?.[0]?.filename || null;
+      const document3 = req.files?.document3?.[0]?.filename || null;
+  
+      const sql = `
+        INSERT INTO applications 
+    (aadhar, surname, first_name, father_name, mobilenumber, years, beneficiary_type, category_id, subcategory_id, yojana_type, bank_name, ifsc_code, account_no, amount_paid)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `;
+  
+      const values = [
+        aadhar,
+        firstName,
+        surname,
+        fatherName,
+        beneficiaryType,
+        category,
+        subCategory,
+        yojnaType,
+        bankName,
+        ifsc,
+        accountNo,
+        amountPaid,
+        document1,
+        document2,
+        document3,
+      ];
+  
+      db.query(sql, values, (err, result) => {
+        if (err) {
+          console.error("Insert error:", err);
+          return res.status(500).json({ error: "Database insert failed" });
+        }
+  
+        res.json({ message: "Form submitted successfully", id: result.insertId });
+      });
+    }
+  );
+  
 
 
 
