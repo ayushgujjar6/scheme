@@ -22,7 +22,7 @@ const cors = require("cors");
 
 app.use(
     cors({
-      origin: "https://yojana-front.vercel.app/",
+      origin: "https://yojana-front.vercel.app",
       credentials: true,
     })
   );
