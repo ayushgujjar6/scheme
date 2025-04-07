@@ -182,7 +182,7 @@ const handleCategoryChange = (event) => {
     const categoryId = Number(event.target.value);
     setSelectedCategory(categoryId); 
     
-    const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
+const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
     setFilteredSubcategories(filtered);
 
     //  Optional: Clear subcategory on category change
@@ -324,7 +324,7 @@ const handleCategoryChange = (event) => {
                             </select>
                             {/* Dropdown for sub category */}
                             <select 
-                                value={String(formData?.subcategory_id || "")}
+                                defaultValue={String(formData?.subcategory_id || "")}
                                 ref={subCategoryIDRef} 
                                 onChange={handleSubCategoryChange}
                                 required 
