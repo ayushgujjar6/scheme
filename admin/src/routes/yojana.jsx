@@ -133,6 +133,11 @@ const Yojana = () => {
     const handleEditForm = (yojana) => {
         setFormData(yojana);
         setShowForm(true);
+
+        const categoryId = yojana.category_id;
+        setSelectedCategory(categoryId);
+        const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
+        setFilteredSubcategories(filtered);
     };
 
     // Handle Delete
@@ -184,6 +189,9 @@ const Yojana = () => {
         const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
         setFilteredSubcategories(filtered);
     };
+
+
+
     
 
 
