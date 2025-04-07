@@ -23,29 +23,20 @@ const Category = () => {
     const statusInputRef = useRef();
 
     // Fetch Yojana data from the backend
-    const fetchCategory = async () => {
-        try {
-            const response = await fetch(`${URL}/api/category`, {
-                method: "GET",
-                credentials: "include", // Ensures cookies are sent
-                headers: {
-                    "Content-Type": "application/json",
-                    // If using token-based authentication, include Authorization header
-                    "Authorization": `Bearer ${localStorage.getItem("token")}` 
-                },
-            });
-    
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+     const fetchCategory = async () => {
+            try {
+                const response = await fetch(`${URL}/api/category`);
+                const data = await response.json();
+                setCategoryData(data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                toast.error("Fetching Error");
             }
+        };
     
-            const data = await response.json();
-            setCategoryData(data);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            toast.error("Failed to fetch");
-        }
-    };
+        useEffect(() => {
+            fetchCategory(); // Load data on component mount
+        }, []);
     
     useEffect(() => {
         fetchCategory(); // Load data on component mount
@@ -53,15 +44,11 @@ const Category = () => {
     
     
 
-    //  Handle opening and closing the form
-    const handleOpenForm = (category) => {
-        setFormData(category); // Clear form data when adding a new Yojana
+    const handleOpenForm = () => {
+        setFormData(null); // Clear form data when adding a new Yojana
         setShowForm(true);
-        setTimeout(() => {
-            nameInputRef.current.value = category.category_name;
-            statusInputRef.current.value = category.status;
-        }, 100); 
     };
+    
     
     const handleCloseForm = () => {
         setShowForm(false);
@@ -248,7 +235,7 @@ const Category = () => {
                             <SquareX className="mb-3" />
                         </button>
                         <form onSubmit={submitFormHandler} className="space-y-4 mt-3">
-                            <input ref={nameInputRef} type="text" placeholder="New Category Name" required className="w-full p-2 border rounded-md" defaultValue={formData?.category_name || " "} />
+                            <input ref={nameInputRef} type="text" placeholder="New Category Name" required className="w-full p-2 border rounded-md" defaultValue={formData?.category_name || ""} />
                             <select ref={statusInputRef} className="w-full p-2 border rounded-md" placeholder="Select Status" required defaultValue={formData?.status || "Active"}>
                                 <option value="Active">Active</option>
                                 <option value="Deactive">Deactive</option>
