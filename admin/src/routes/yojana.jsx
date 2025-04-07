@@ -315,7 +315,6 @@ const Yojana = () => {
                             </select>
                             {/* Dropdown for sub category */}
                             <select 
-                                value={String(formData?.subcategory_id || "")}
                                 ref={subCategoryIDRef} 
                                 required 
                                 className="w-full p-2 border rounded-md"
