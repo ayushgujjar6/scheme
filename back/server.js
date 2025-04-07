@@ -19,16 +19,10 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 const app = express();
 app.use(express.json());
-app.use(cors());
-
-// app.use(
-//     cors({
-//       origin: "yojana-front-git-main-ayush-gujjars-projects.vercel.app",
-//       credentials: true,
-//     })
-//   );
-  
-  // Other middlewares
+app.use(cors({
+    origin: ['http://localhost:5173', 'https://yojana-front.vercel.app'],
+    credentials: true
+  }));
 
   app.use(cookieParser());
 
