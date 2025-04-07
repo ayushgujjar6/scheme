@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const db = require('./DB/db');
+const cookieParser = require('cookie-parser')
 
 
 require('dotenv').config();
@@ -28,7 +29,7 @@ app.use(
   );
   
   // Other middlewares
-  app.use(express.json());
+
   app.use(cookieParser());
 
 
