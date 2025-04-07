@@ -19,14 +19,14 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 const app = express();
 app.use(express.json());
-const cors = require("cors");
+app.use(cors());
 
-app.use(
-    cors({
-      origin: "yojana-front-git-main-ayush-gujjars-projects.vercel.app",
-      credentials: true,
-    })
-  );
+// app.use(
+//     cors({
+//       origin: "yojana-front-git-main-ayush-gujjars-projects.vercel.app",
+//       credentials: true,
+//     })
+//   );
   
   // Other middlewares
 
