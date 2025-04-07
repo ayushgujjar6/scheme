@@ -314,10 +314,10 @@ const Yojana = () => {
                             </select>
                             {/* Dropdown for sub category */}
                             <select 
+                                value={String(formData?.subcategory_id || "")}
                                 ref={subCategoryIDRef} 
                                 required 
                                 className="w-full p-2 border rounded-md"
-                                defaultValue={formData?.subcategory_name || ""}
                             >
                                 <option value="">Select Sub Category</option>
                                     {filteredSubcategories.length > 0 ? (
@@ -337,10 +337,10 @@ const Yojana = () => {
                             <input ref={amountRef} type="number" placeholder="Amount" required className="w-full p-2 border rounded-md" defaultValue={formData?.amount || ""} />
                                     
                             <select 
+                                value={String(formData?.year || "")}
                                 ref={yojanaYearRef} 
                                 required 
                                 className="w-full p-2 border rounded-md"
-                                defaultValue={formData?.year || ""}
                             >
                                 <option value="">Select Year</option>
                                 {Array.from({ length: 10 }, (_, i) => {
