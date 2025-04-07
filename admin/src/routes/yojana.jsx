@@ -177,21 +177,22 @@ const Yojana = () => {
 
 
 
-    const handleCategoryChange = (event) => {
-        const categoryId = Number(event.target.value);
-        setSelectedCategory(categoryId); 
+   
+const handleCategoryChange = (event) => {
+    const categoryId = Number(event.target.value);
+    setSelectedCategory(categoryId); 
     
-        const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
-        setFilteredSubcategories(filtered);
-    };
+    const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
+    setFilteredSubcategories(filtered);
 
-    const handleSubCategoryChange = (e) => {
-        setFormData(prev => ({
-            ...prev,
-            subcategory_id: e.target.value
-        }));
-    };
-    
+    //  Optional: Clear subcategory on category change
+    setFormData(prev => ({
+        ...prev,
+        category_id: categoryId,
+        subcategory_id: ""  // Clear subcategory if category changes
+    }));
+};
+
     
 
 
