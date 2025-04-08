@@ -120,10 +120,14 @@ const Yojana = () => {
             );
 
             if (!response.ok) throw new Error("Failed to save yojana");
+            if (!response.ok) {
+                toast.error("Error to save");
+            }
 
             await fetchYojana(); // Refresh the list after adding/updating
             handleCloseForm();
             console.log(formData?.yojana_type_id ? "Yojana updated successfully" : "New Yojana added successfully");
+            
         } catch (error) {
             console.error("Error saving yojana:", error);
         }
@@ -133,12 +137,14 @@ const Yojana = () => {
     const handleEditForm = (yojana) => {
         setFormData(yojana);
         setShowForm(true);
-
-        // const categoryId = yojana.category_id;
-        // setSelectedCategory(categoryId);
-        // const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
-        // setFilteredSubcategories(filtered);
+    
+        const categoryId = yojana.category_id;
+        setSelectedCategory(categoryId);
+    
+        const filtered = subCategoryData.filter(sub => sub.category_id === categoryId);
+        setFilteredSubcategories(filtered);
     };
+    
 
     // Handle Delete
     const deactiveYojana = async (id) => {
@@ -308,12 +314,13 @@ const Yojana = () => {
 
                             {/* Dropdown for category selection */}
                             <select 
-                                value={String(formData?.category_id || "")}
-                                ref={categoryIDRef} 
+                                defaultValue={formData?.category_id || ""}
+                                ref={categoryIDRef}
                                 onChange={handleCategoryChange} 
                                 required 
                                 className="w-full p-2 border rounded-md"
-                            >
+                                >
+
                                 <option value="">Select Category</option>
                                 {categoryData.map(category => (
                                     <option key={category.category_id} value={category.category_id}>
@@ -323,11 +330,12 @@ const Yojana = () => {
                             </select>
                             {/* Dropdown for sub category */}
                             <select 
-                                value={String(formData?.subcategory_id || "")}
+                                defaultValue={formData?.subcategory_id || ""}
                                 ref={subCategoryIDRef} 
                                 required 
                                 className="w-full p-2 border rounded-md"
-                            >
+                                >
+
                                 <option value="">Select Sub Category</option>
                                     {filteredSubcategories.length > 0 ? (
                                         filteredSubcategories.map(sub => (

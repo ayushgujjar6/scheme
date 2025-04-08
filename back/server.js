@@ -270,7 +270,7 @@ app.post("/api/new-yojana", (req, res) => {
         return res.status(400).json({ error: "All fields are required!" });
     }
 
-    const sql = `INSERT INTO tbl_yojana_type (category_id, subcategory_id, yojana_type, amount, yojana_year, status, description, link, ins_date_time, update_date_time) VALUES (?, ?,?,?, ?, ?, ?, NOW(), NOW())`;
+    const sql = `INSERT INTO tbl_yojana_type (category_id, subcategory_id, yojana_type, amount, yojana_year, status, description, link, ins_date_time, update_date_time) VALUES (?, ?,?,?, ?, ?, ?,?, NOW(), NOW())`;
 
 
     db.query(sql, [category_id, subcategory_id, yojana_type, amount, year, status, description, link], (err, result) => {
