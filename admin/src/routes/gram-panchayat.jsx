@@ -108,6 +108,7 @@ const GramPanchayat = () => {
             taluka_id : taluka_idRef.current.value,
             status : statusInputRef.current.value,
            };
+        console.log(newpanchayat);
 
         try {
             const response = await fetch(
