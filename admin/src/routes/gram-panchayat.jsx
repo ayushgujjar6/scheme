@@ -2,22 +2,27 @@ import React, { useEffect, useState, useRef } from "react";
 import { Footer } from "@/layouts/footer";
 import { PencilLine, Plus, ShieldOff, SquareX, Trash } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
+import Pagination from "@/layouts/pagination";
+import TableHead from "@/layouts/table-head";
 
-import  axios from 'axios';
 
 
-const GramPanchayat = () => {
+
+
+const GramPanchayat = ({}) => {
     const { theme } = useTheme();
     const [talukaData, setTalukatData] = useState([]); 
     const [panchayatData, setPanchayatData] = useState([]); // Store fetched data
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState(null); // Stores current form data (for editing)
     const [selectedTaluka, setSelectedTaluka] = useState(null);
-
     const [selectedStatus, setSelectedStatus] = useState("all");
-    const [filteredData, setFilteredData] = useState([]); 
+    const [filteredData, setFilteredData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState("");
     const itemsPerPage = 6;
+
+  
 
 
     const  URL = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
@@ -173,31 +178,28 @@ const GramPanchayat = () => {
                  setCurrentPage(1);
             };
             
-    useEffect(() => {
+            useEffect(() => {
+                let updatedData = panchayatData;
+            
+                if (selectedStatus !== "all") {
+                  updatedData = updatedData.filter(item => item.status === selectedStatus);
+                }
+            
+                if (searchTerm !== "") {
+                  updatedData = updatedData.filter(item =>
+                    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+                  );
+                }
+            
+                setFilteredData(updatedData);
                 setCurrentPage(1);
-                if (selectedStatus === "all") {
-                    setFilteredData(panchayatData);
-                } else {
-                    setFilteredData(panchayatData.filter(panchayat => panchayat.status === selectedStatus));
-                }
-            }, [selectedStatus, panchayatData]);
+              }, [selectedStatus, searchTerm, panchayatData]);
         
+              const indexOfLastItem = currentPage * itemsPerPage;
+              const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+              const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
         
-            const indexOfLastItem = currentPage * itemsPerPage;
-            const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-            const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
             
-            const nextPage = () => {
-                if (currentPage < Math.ceil(filteredData.length / itemsPerPage)) {
-                    setCurrentPage(currentPage + 1);
-                }
-            };
-            
-            const prevPage = () => {
-                if (currentPage > 1) {
-                        setCurrentPage(currentPage - 1);
-                    }
-                };
         
 
     return (
@@ -208,6 +210,18 @@ const GramPanchayat = () => {
                     <Plus className="text-xl" /> New
                 </button>
             </div>
+
+            <TableHead
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                selectedStatus={selectedStatus}
+                setSelectedStatus={setSelectedStatus}
+                onNewClick={() => {
+                // Handle form open
+                console.log("Open form");
+                
+                }}
+            />
 
             <div className="flex flex-row justify-start items-start gap-3">
                 <select ref={taluka_idRef} onChange={handleTalukaChange} value={selectedTaluka} className="w-[200px] h-[30px] rounded-md outline outline-2  outline-slate-200 dark:bg-slate-800 dark:text-white">
@@ -279,10 +293,13 @@ const GramPanchayat = () => {
 
                          </table>
                     </div>
-                    <div className="flex lg:justify-end  justify-start gap-4 ">
-                            <button onClick={prevPage} disabled={currentPage === 1} className="px-4 py-2 bg-gray-300 rounded-md">Previous</button>
-                            <button onClick={nextPage} disabled={currentPage >= Math.ceil(filteredData.length / itemsPerPage)} className="px-4 py-2 bg-gray-300 rounded-md">Next</button>
-                        </div>
+                    <Pagination
+                        filteredData={filteredData}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        itemsPerPage={itemsPerPage}
+                        />
+
                 </div>
             </div>
 
