@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export default function TableHead({ searchTerm, setSearchTerm, selectedStatus, setSelectedStatus, onNewClick }) {
+export default function TableHead({ searchTerm, setSearchTerm, selectedStatus, setSelectedStatus, handleNewButtonClick, }) {
   return (
     <div className="flex flex-wrap justify-between items-center mb-4 gap-4">
       {/* Search Input */}
@@ -27,7 +27,7 @@ export default function TableHead({ searchTerm, setSearchTerm, selectedStatus, s
 
       {/* New Button */}
       <button
-        onClick={onNewClick}
+        onClick={handleNewButtonClick}
         className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
       >
         + New
