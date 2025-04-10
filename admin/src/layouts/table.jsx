@@ -14,8 +14,8 @@ export default function Table() {
                                 <th className="table-head">Gram Panchayat</th>
                                 <th className="table-head">ग्राम पंचायत</th>
                                 <th className="table-head">Taluka</th>  
-                                <th className="table-head">Status</th>
-                                <th className="table-head">Actions</th>
+                                {/* <th className="table-head">Status</th>
+                                <th className="table-head">Actions</th> */}
                             </tr>
                         </thead>
 
@@ -50,7 +50,7 @@ export default function Table() {
                                     })
                                 ) : (
                                     <tr>
-                                        <td colSpan="7" className="text-center p-4">No data available</td>
+                                        <td colSpan="7" className="text-center p-4">Fetching Data Not Available</td>
                                     </tr>
                                 )}
                             </tbody>
