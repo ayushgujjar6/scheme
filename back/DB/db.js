@@ -23,12 +23,12 @@ db.connect((err) => {
         console.error('Clever Cloud DB connection failed:', err.message);
         console.log('Trying to connect with Localhost Database...');
 
-        db = mysql.createConnection(dbConfigCleverCloud);
+        db = mysql.createConnection(dbConfigLocal);
         db.connect((localErr) => {
             if (localErr) {
                 console.error('Localhost DB connection failed:', localErr.message);
             } else {
-                console.log('Connected to Localhost MySQL Database');
+                console.log('Connected to Localhost Database');
             }
         });
     }
@@ -38,7 +38,7 @@ db.connect((err) => {
     // }
 
     else {
-        console.log('Connected to Localhost Database');
+        console.log('Connected to Clever Cloud Database');
     }
 });
 
