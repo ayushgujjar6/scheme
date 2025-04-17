@@ -30,7 +30,7 @@ const SignIn = () => {
       localStorage.setItem("token", data.token); // Store JWT Token
       toast.success("Login Successful");
 
-      navigate("/"); 
+      navigate("/dashboard"); 
     } catch (error) {
       toast.error(error.message);
     }
