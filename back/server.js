@@ -854,97 +854,97 @@ app.put("/api/user/:id", (req, res) => {
 
 
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "uploads/");
-    },
-    filename: (req, file, cb) => {
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      cb(null, uniqueSuffix + path.extname(file.originalname));
-    },
-  });
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//       cb(null, "uploads/");
+//     },
+//     filename: (req, file, cb) => {
+//       const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+//       cb(null, uniqueSuffix + path.extname(file.originalname));
+//     },
+//   });
   
-  const upload = multer({ storage: storage });
+//   const upload = multer({ storage: storage });
 
   
-app.post(
-    "/api/submitForm",
-    upload.fields([
-      { name: "document1", maxCount: 1 },
-      { name: "document2", maxCount: 1 },
-      { name: "document3", maxCount: 1 },
-    ]),
-    (req, res) => {
-      const {
-        aadhar,
-        firstName,
-        surname,
-        fatherName,
-        beneficiaryType,
-        category,
-        subCategory,
-        yojnaType,
-        bankName,
-        ifsc,
-        accountNo,
-        amountPaid,
-      } = req.body;
+// app.post(
+//     "/api/submitForm",
+//     upload.fields([
+//       { name: "document1", maxCount: 1 },
+//       { name: "document2", maxCount: 1 },
+//       { name: "document3", maxCount: 1 },
+//     ]),
+//     (req, res) => {
+//       const {
+//         aadhar,
+//         firstName,
+//         surname,
+//         fatherName,
+//         beneficiaryType,
+//         category,
+//         subCategory,
+//         yojnaType,
+//         bankName,
+//         ifsc,
+//         accountNo,
+//         amountPaid,
+//       } = req.body;
   
-      if (
-        !aadhar ||
-        !firstName ||
-        !surname ||
-        !fatherName ||
-        !beneficiaryType ||
-        !category ||
-        !subCategory ||
-        !yojnaType ||
-        !bankName ||
-        !ifsc ||
-        !accountNo ||
-        !amountPaid
-      ) {
-        return res.status(400).json({ error: "All fields are required" });
-      }
+//       if (
+//         !aadhar ||
+//         !firstName ||
+//         !surname ||
+//         !fatherName ||
+//         !beneficiaryType ||
+//         !category ||
+//         !subCategory ||
+//         !yojnaType ||
+//         !bankName ||
+//         !ifsc ||
+//         !accountNo ||
+//         !amountPaid
+//       ) {
+//         return res.status(400).json({ error: "All fields are required" });
+//       }
   
-      const document1 = req.files?.document1?.[0]?.filename || null;
-      const document2 = req.files?.document2?.[0]?.filename || null;
-      const document3 = req.files?.document3?.[0]?.filename || null;
+//       const document1 = req.files?.document1?.[0]?.filename || null;
+//       const document2 = req.files?.document2?.[0]?.filename || null;
+//       const document3 = req.files?.document3?.[0]?.filename || null;
   
-      const sql = `
-        INSERT INTO applications 
-    (aadhar, surname, first_name, father_name, mobilenumber, years, beneficiary_type, category_id, subcategory_id, yojana_type, bank_name, ifsc_code, account_no, amount_paid)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `;
+//       const sql = `
+//         INSERT INTO applications 
+//     (aadhar, surname, first_name, father_name, mobilenumber, years, beneficiary_type, category_id, subcategory_id, yojana_type, bank_name, ifsc_code, account_no, amount_paid)
+//     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+//       `;
   
-      const values = [
-        aadhar,
-        firstName,
-        surname,
-        fatherName,
-        beneficiaryType,
-        category,
-        subCategory,
-        yojnaType,
-        bankName,
-        ifsc,
-        accountNo,
-        amountPaid,
-        document1,
-        document2,
-        document3,
-      ];
+//       const values = [
+//         aadhar,
+//         firstName,
+//         surname,
+//         fatherName,
+//         beneficiaryType,
+//         category,
+//         subCategory,
+//         yojnaType,
+//         bankName,
+//         ifsc,
+//         accountNo,
+//         amountPaid,
+//         document1,
+//         document2,
+//         document3,
+//       ];
   
-      db.query(sql, values, (err, result) => {
-        if (err) {
-          console.error("Insert error:", err);
-          return res.status(500).json({ error: "Database insert failed" });
-        }
+//       db.query(sql, values, (err, result) => {
+//         if (err) {
+//           console.error("Insert error:", err);
+//           return res.status(500).json({ error: "Database insert failed" });
+//         }
   
-        res.json({ message: "Form submitted successfully", id: result.insertId });
-      });
-    }
-  );
+//         res.json({ message: "Form submitted successfully", id: result.insertId });
+//       });
+//     }
+//   );
   
 
 
