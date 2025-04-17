@@ -35,9 +35,7 @@ app.post('/api/login', (req, res) => {
 
     db.query('SELECT * FROM user WHERE email = ?', [email], async (err, results) => {
         if (err) {
-        }
-        if (results.length == 0) {
-            return res.status(401).json({ error: 'Email ID not found' });
+            console.log("Error", err);
         }
 
         const user = results[0];
@@ -47,9 +45,8 @@ app.post('/api/login', (req, res) => {
             return res.status(401).json({ error: 'Email ID or Password is Invalid' });
         }
 
-        const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
 
-        db.query('UPDATE user SET status = "Active", time = NOW() WHERE id = ?', [user.id]);
+        
         res.json({ message: 'Login Successfully', token });
 
     });
@@ -64,7 +61,7 @@ app.post('/api/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     db.query('INSERT INTO user (name, email, password, mobileno, status, time) VALUES (?,?,?,?,?, NOW())',
-        [name, email, hashedPassword, mobileno, "Active"],
+        [name, email, hashedPassword, mobileno, "yes"],
         (err, results) => {
             if (err) {
                 console.log(err);

@@ -28,7 +28,7 @@ const Register = () => {
       }
 
       toast.success("Registration Successful! Please log in.");
-      navigate("/"); // Redirect to Sign-In page
+      navigate("/dashboard"); // Redirect to Sign-In page
     } catch (error) {
       toast.error(error.message);
     }
