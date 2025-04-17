@@ -21,12 +21,22 @@ import Setting from "./routes/setting";
 
 function App() {
     const router = createBrowserRouter([
-        // {
-        //     path: "/",
-        //     element: <SignIn />,  // Show Sign-In first
-        // },
+        // Default route shows Sign In
         {
             path: "/",
+            element: <SignIn />,
+        },
+        {
+            path: "/login",
+            element: <SignIn />,
+        },
+        {
+            path: "/register",
+            element: <Register />,
+        },
+        // All other routes under Layout
+        {
+            path: "/dashboard",
             element: <Layout />,
             children: [
                 {
@@ -66,25 +76,17 @@ function App() {
                     element: <Village />,
                 },
                 {
-                    path: "User",
+                    path: "user",
                     element: <User />,
                 },
                 {
                     path: "setting",
                     element: <Setting />,
                 },
-                {
-                    path: "login",
-                    element:<SignIn />
-                },
-                {
-                    path: "register",
-                    element:<Register />
-                }
             ],
         },
     ]);
-
+    
     return (
         <ThemeProvider storageKey="theme">
             <RouterProvider router={router} />
