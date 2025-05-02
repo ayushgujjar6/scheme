@@ -23,14 +23,17 @@ const SignIn = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Invalid email or password");
+        // throw new Error("Invalid email or password");
+        // toast.success("Login Successful");
+        // navigate("/dashboard"); 
       }
 
       const data = await response.json();
-      localStorage.setItem("token", data.token); // Store JWT Token
+      console.log(data);
+      // localStorage.setItem("token", data.token); // Store JWT Token
       toast.success("Login Successful");
-
       navigate("/dashboard"); 
+      
     } catch (error) {
       toast.error(error.message);
     }

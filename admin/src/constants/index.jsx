@@ -75,26 +75,7 @@ export const navbarLinks = [
         ],
     },
     
-    // {
-    //     title: "Settings",
-    //     links: [
-    //         {
-    //             label: "Settings",
-    //             icon: Settings,
-    //             path: "/setting",
-    //         },
-    //         {
-    //             label: "Login",
-    //             icon: Settings,
-    //             path: "/login",
-    //         },
-    //         {
-    //             label: "Register",
-    //             icon: Settings,
-    //             path: "/register",
-    //         },
-    //     ],
-    // },
+   
 ];
 
 

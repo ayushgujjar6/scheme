@@ -17,9 +17,6 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 
 
-
-
-
 const app = express();
 app.use(express.json());
 app.use(cors({
@@ -36,17 +33,24 @@ app.post('/api/login', (req, res) => {
     db.query('SELECT * FROM user WHERE email = ?', [email], async (err, results) => {
         if (err) {
             console.log("Error", err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+
+        if (results.length === 0) {
+            return res.status(401).json({ error: 'Email ID or Password is Invalid' });
         }
 
         const user = results[0];
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        console.log(hashedPassword, user.password); 
+
+        const isMatch = await bcrypt.compare(hashedPassword, user.password);
         if (!isMatch) {
             return res.status(401).json({ error: 'Email ID or Password is Invalid' });
         }
-
-
-        
+    
         res.json({ message: 'Login Successfully', token });
 
     });

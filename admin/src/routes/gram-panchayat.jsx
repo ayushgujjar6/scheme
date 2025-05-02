@@ -22,18 +22,12 @@ const GramPanchayat = ({}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
     const itemsPerPage = 6;
-    const handleNewButtonClick = handleOpenForm;
 
   
 
 
     const  URL = import.meta.env.VITE_REACT_APP_BACKEND_BASEURL;
     
-
-
-
-
-   
 
 
     // Input Refs
@@ -269,7 +263,6 @@ const GramPanchayat = ({}) => {
                                 </div>
                             </div>
                         )}
-            
 
            
 
